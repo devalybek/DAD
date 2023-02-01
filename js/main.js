@@ -169,7 +169,7 @@ async function search(event) {
   }
 }
 searchInp.on("input", search);
-=======
+
 function kpi(students) {
     studentsList.html("");
     students.forEach((item, index) => {
