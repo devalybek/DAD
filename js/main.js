@@ -1,6 +1,6 @@
 //! Project KPI
 //! started CRUD
-let API = "http://localhost:8000/kpi";
+let API = "http://localhost:8001/kpi";
 
 let inputName = $(".inp-name");
 let inputPhone = $(".inp-phone");
