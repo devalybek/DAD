@@ -54,3 +54,57 @@ async function getStudents(URL) {
     console.log(error);
   }
 }
+
+
+
+
+
+
+
+// ! Pagination
+let pagination = $(".pagination");
+const studentsPerPage = 7;
+let currentPage = 1;
+let pagesCount = 1;
+function handlPagination() {
+  let indexOfLastStudent = currentPage * studentsPerPage;
+  let indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
+  let currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
+  kpi(currentStudents);
+  pagesCount = Math.ceil(students.length / studentsPerPage);
+  // console.log(pagesCount);
+  addPagination(pagesCount);
+}
+
+function addPagination(pagesCount) {
+  pagination.html("");
+  for (let i = 1; i <= pagesCount; i++) {
+    pagination.append(`
+     <li class="page-item ${
+       currentPage === i ? "active" : ""
+     }"><a class="page-link pagination-item" href="#">${i}</a></li>
+    `);
+  }
+}
+
+$(document).on("click", ".pagination-item", (event) => {
+  let newPage = event.target.innerText;
+  currentPage = +newPage;
+  handlPagination();
+});
+
+// ! Search
+
+let searchInp = $(".search-inp");
+async function search(event) {
+  let value = event.target.value;
+  try {
+    const response = await axios(`${API}?q=${value}`);
+    students = response.data;
+    currentPage = 1;
+    handlPagination();
+  } catch (error) {
+    console.log(error);
+  }
+}
+searchInp.on("input", search);
